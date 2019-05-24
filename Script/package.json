@@ -1,0 +1,16 @@
+{
+  "name": "script",
+  "version": "1.0.0",
+  "description": "Script para criar individuals rdf",
+  "main": "script-individuals.js",
+  "scripts": {
+    "test": "node script-individuals.js"
+  },
+  "author": "JG",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "sleep": "^6.1.0"
+  }
+}

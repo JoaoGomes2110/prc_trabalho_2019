@@ -1,0 +1,309 @@
+@prefix : <http://prc.di.uminho.pt/2019/futebol#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://prc.di.uminho.pt/2019/futebol> .
+
+<http://prc.di.uminho.pt/2019/futebol> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://prc.di.uminho.pt/2019/futebol#arbitra
+:arbitra rdf:type owl:ObjectProperty ;
+         owl:inverseOf :eArbitrado ;
+         rdfs:domain :Arbitro ;
+         rdfs:range :Jogo .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#constitui
+:constitui rdf:type owl:ObjectProperty ;
+           owl:inverseOf :eConstituida .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#dizRespeito
+:dizRespeito rdf:type owl:ObjectProperty ;
+             owl:inverseOf :temClassificacao .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#eArbitrado
+:eArbitrado rdf:type owl:ObjectProperty .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#eCompostaPor
+:eCompostaPor rdf:type owl:ObjectProperty ;
+              owl:inverseOf :participa ;
+              rdfs:domain :Competicao ;
+              rdfs:range :Equipa .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#eConstituida
+:eConstituida rdf:type owl:ObjectProperty ;
+              rdfs:domain :Competicao ;
+              rdfs:range :Jogo .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#jogaEmCasa
+:jogaEmCasa rdf:type owl:ObjectProperty ;
+            rdfs:domain :Jogo ;
+            rdfs:range :Equipa .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#jogaFora
+:jogaFora rdf:type owl:ObjectProperty ;
+          rdfs:domain :Jogo ;
+          rdfs:range :Equipa .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#jogaNaEquipa
+:jogaNaEquipa rdf:type owl:ObjectProperty ;
+              owl:inverseOf :temJogador .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#participa
+:participa rdf:type owl:ObjectProperty .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#pertence
+:pertence rdf:type owl:ObjectProperty ;
+          rdfs:domain :Classificacao ;
+          rdfs:range :Competicao .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#temClassificacao
+:temClassificacao rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Equipa ;
+                  rdfs:range :Classificacao .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#temJogador
+:temJogador rdf:type owl:ObjectProperty ;
+            rdfs:domain :Equipa ;
+            rdfs:range :Jogador .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#temTreinador
+:temTreinador rdf:type owl:ObjectProperty ;
+              owl:inverseOf :treina ;
+              rdfs:domain :Equipa ;
+              rdfs:range :Treinador .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#treina
+:treina rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://prc.di.uminho.pt/2019/futebol#anoDeFundacao
+:anoDeFundacao rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Equipa ;
+               rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#area
+:area rdf:type owl:DatatypeProperty ;
+      rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#coresClube
+:coresClube rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Equipa ;
+            rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#data
+:data rdf:type owl:DatatypeProperty ;
+      rdfs:domain :Jogo ;
+      rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#dataNascimento
+:dataNascimento rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Pessoa ;
+                rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#diferencaDeGolos
+:diferencaDeGolos rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Classificacao ;
+                  rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#email
+:email rdf:type owl:DatatypeProperty ;
+       rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#estadio
+:estadio rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Equipa ;
+         rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#golosCasa
+:golosCasa rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Jogo ;
+           rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#golosFora
+:golosFora rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Jogo ;
+           rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#morada
+:morada rdf:type owl:DatatypeProperty ;
+        rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nDerrotas
+:nDerrotas rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Classificacao ;
+           rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nEmpates
+:nEmpates rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Classificacao ;
+          rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nGolosMarcados
+:nGolosMarcados rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Classificacao ;
+                rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nGolosSofridos
+:nGolosSofridos rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Classificacao ;
+                rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nJogos
+:nJogos rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Classificacao ;
+        rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nVitorias
+:nVitorias rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Classificacao ;
+           rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nacionalidade
+:nacionalidade rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Pessoa ;
+               rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nome
+:nome rdf:type owl:DatatypeProperty ;
+      rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#nomeCurto
+:nomeCurto rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Equipa ;
+           rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#numeroDeJogo
+:numeroDeJogo rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Jogo ;
+              rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#paisNascimento
+:paisNascimento rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Pessoa ;
+                rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#pontos
+:pontos rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Classificacao ;
+        rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#posicao
+:posicao rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Jogador ;
+         rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#posicaoTabela
+:posicaoTabela rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Classificacao ;
+               rdfs:range xsd:int .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#tla
+:tla rdf:type owl:DatatypeProperty ;
+     rdfs:domain :Equipa ;
+     rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#vencedor
+:vencedor rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Jogo ;
+          rdfs:range xsd:string .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#website
+:website rdf:type owl:DatatypeProperty ;
+         rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://prc.di.uminho.pt/2019/futebol#Arbitro
+:Arbitro rdf:type owl:Class ;
+         rdfs:subClassOf :Pessoa .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#Classificacao
+:Classificacao rdf:type owl:Class .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#Competicao
+:Competicao rdf:type owl:Class .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#Equipa
+:Equipa rdf:type owl:Class .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#Jogador
+:Jogador rdf:type owl:Class ;
+         rdfs:subClassOf :Pessoa .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#Jogo
+:Jogo rdf:type owl:Class .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#Pessoa
+:Pessoa rdf:type owl:Class .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#Treinador
+:Treinador rdf:type owl:Class ;
+           rdfs:subClassOf :Pessoa .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+

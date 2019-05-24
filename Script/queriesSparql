@@ -1,0 +1,181 @@
+Queries Sparql:
+
+1 - Listar Todas as Competições:
+
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?c ?area ?nome where { 
+	?c a :Competicao .
+    ?c :nome ?nome.
+    ?c :area ?area.
+}order by(?c)
+limit 100
+
+2 - Listar equipas de uma dada Competicao
+
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?e ?nomeEquipa where { 
+    :c_2017 :eCompostaPor ?e.
+    ?e :nome ?nomeEquipa.
+}
+limit 100
+
+3 - Listar classificacoes de uma dada competicao
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?c ?pos ?e ?nome ?nome ?pontos ?nJogos ?nVitorias ?nEmpates ?nDerrotas ?nGolosMarcados ?nGolosSofridos ?diferencaDeGolos  where { 
+    :c_2015 :eCompostaPor ?e.
+    ?e :nome ?nome.
+    ?e :temClassificacao ?c.
+    ?c :posicaoTabela ?pos.
+    ?c :pontos ?pontos.
+    ?c :nJogos ?nJogos.
+    ?c :nVitorias ?nVitorias.
+    ?c :nEmpates ?nEmpates.
+    ?c :nDerrotas ?nDerrotas.
+    ?c :nGolosMarcados ?nGolosMarcados.
+    ?c :nGolosSofridos ?nGolosSofridos.
+    ?c :diferencaDeGolos ?diferencaDeGolos.
+}
+order by ?pos
+limit 100
+
+
+4- Listar Jogos de Uma competicao
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?j ?eC ?nomeC ?eF ?nomeF ?gC ?gF ?numeroDeJogo ?data where { 
+    :c_2017 :eConstituida ?j.
+    ?j :jogaEmCasa ?eC.
+    ?eC :nome ?nomeC.
+    ?j :jogaFora ?eF.
+    ?eF :nome ?nomeF.
+}
+
+5- Info Jogo 
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?j ?eC ?nomeC ?eF ?nomeF ?gC ?gF ?numeroDeJogo ?data where { 
+    :c_2017 :eConstituida ?j.
+    ?j :jogaEmCasa ?eC.
+    ?eC :nome ?nomeC.
+    ?j :jogaFora ?eF.
+    ?eF :nome ?nomeF.
+    ?j :golosCasa ?gC.
+    ?j :golosFora ?gF.
+    ?j :numeroDeJogo ?numeroDeJogo.
+    ?j :data ?data.
+}
+limit 100
+
+6- Arbitros de um jogo
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?a ?nome  where { 
+    :j_241177 :eArbitrado ?a.
+    ?a :nome ?nome.
+}
+limit 100
+
+
+7- Info equipa pode ter treinador
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?nomeEquipa ?anoFundacao ?area ?coresClube ?email ?website ?nomeCurto ?tla ?idTreinador ?treinador where { 
+    :e_496 :nome ?nomeEquipa.
+    :e_496 :anoFundacao ?anoFundacao.
+    :e_496 :area ?area.
+    :e_496 :coresClube ?coresClube.
+    :e_496 :email ?email.
+    :e_496 :website ?website.
+    :e_496 :nomeCurto ?nomeCurto.
+    :e_496 :tla ?tla.
+    :e_496 :temTreinador ?idTreinador.
+    ?idTreinador :nome ?treinador.
+}
+limit 100
+
+#############
+8- Jogadores equipa
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?j ?jogador where { 
+    :e_496 :temJogador ?j.
+    ?j :nome ?jogador.
+}
+limit 100
+
+#############
+9- Listar um jogador de uma equipa 
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?e ?nomeEquipa ?nome ?dNasc ?nacionalidade ?paisNascimento ?posicao where { 
+    :p_101354 :jogaNaEquipa ?e.
+    ?e :nome ?nomeEquipa.
+    :p_101354 :nome ?nome.
+    :p_101354 :dataNascimento ?dNasc.
+    :p_101354 :nacionalidade ?nacionalidade.
+    :p_101354 :paisNascimento ?paisNascimento.
+    :p_101354 :posicao ?posicao
+}
+limit 100
+
+#############
+10- Listar um arbitro 
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?a ?nome  where { 
+    ?a a :Arbitro.
+    ?a :nome ?nome.
+}
+limit 100
+
+#############
+11- listar um treinador
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select ?e ?nomeEquipa ?nome ?dNasc ?nacionalidade ?paisNascimento where { 
+    :t_45355 :treina ?e.
+    ?e :nome ?nomeEquipa.
+    :t_45355 :nome ?nome.
+    :t_45355 :dataNascimento ?dNasc.
+    :t_45355 :nacionalidade ?nacionalidade.
+    :t_45355 :paisNascimento ?paisNascimento.
+}
+limit 100
+
+
+#############
+12- Count Competições
+
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select (count(?s) as ?nCompeticoes) where { 
+    ?s a :Competicao
+}
+
+#############
+13- Count Jogos
+
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select (count(?s) as ?nJogos) where { 
+    ?s a :Jogo
+}
+
+#############
+14- Count equipas
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select (count(?s) as ?nEquipas) where { 
+    ?s a :Equipa
+}
+
+#############
+15- Count Jogadores
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select (count(?s) as ?nJogadores) where { 
+    ?s a :Jogador
+}
+
+
+#############
+16- Count Treinadores
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select (count(?s) as ?nTreinadores) where { 
+    ?s a :Treinador
+}
+
+#############
+17- Count Arbitros
+PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+select (count(?s) as ?nArbitros) where { 
+    ?s a :Arbitro
+}
