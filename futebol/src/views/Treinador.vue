@@ -1,15 +1,15 @@
 <template>
   <v-container> 
     <layoutBar/>
-    <ListaArbitros/>
+    <MetaTreinador :idTreinador="$route.params.id" />
   </v-container>
 </template>
 
 <script>
-import ListaArbitros from "@/components/ListaArbitros";
+import MetaTreinador from "@/components/MetaTreinador";
 export default {
   components: {
-    ListaArbitros
+    MetaTreinador
   }
 };
 </script>

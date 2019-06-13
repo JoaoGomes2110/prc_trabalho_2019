@@ -117,6 +117,12 @@
             rdfs:range xsd:string .
 
 
+###  http://prc.di.uminho.pt/2019/futebol#crestUrl
+:crestUrl rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Equipa ;
+          rdfs:range xsd:string .
+
+
 ###  http://prc.di.uminho.pt/2019/futebol#data
 :data rdf:type owl:DatatypeProperty ;
       rdfs:domain :Jogo ;
@@ -228,6 +234,12 @@
                 rdfs:range xsd:string .
 
 
+###  http://prc.di.uminho.pt/2019/futebol#papel
+:papel rdf:type owl:DatatypeProperty ;
+       rdfs:domain :Treinador ;
+       rdfs:range xsd:string .
+
+
 ###  http://prc.di.uminho.pt/2019/futebol#pontos
 :pontos rdf:type owl:DatatypeProperty ;
         rdfs:domain :Classificacao ;
@@ -272,6 +284,11 @@
          rdfs:subClassOf :Pessoa .
 
 
+###  http://prc.di.uminho.pt/2019/futebol#Assistente
+:Assistente rdf:type owl:Class ;
+            rdfs:subClassOf :Treinador .
+
+
 ###  http://prc.di.uminho.pt/2019/futebol#Classificacao
 :Classificacao rdf:type owl:Class .
 
@@ -282,6 +299,11 @@
 
 ###  http://prc.di.uminho.pt/2019/futebol#Equipa
 :Equipa rdf:type owl:Class .
+
+
+###  http://prc.di.uminho.pt/2019/futebol#Interino
+:Interino rdf:type owl:Class ;
+          rdfs:subClassOf :Treinador .
 
 
 ###  http://prc.di.uminho.pt/2019/futebol#Jogador
@@ -297,6 +319,11 @@
 :Pessoa rdf:type owl:Class .
 
 
+###  http://prc.di.uminho.pt/2019/futebol#Principal
+:Principal rdf:type owl:Class ;
+           rdfs:subClassOf :Treinador .
+
+
 ###  http://prc.di.uminho.pt/2019/futebol#Treinador
 :Treinador rdf:type owl:Class ;
            rdfs:subClassOf :Pessoa .
@@ -305,5 +332,4 @@
 #################################################################
 #    Individuals
 #################################################################
-
 

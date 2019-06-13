@@ -25,7 +25,7 @@ request.get({
     console.log("\n### Competições ###\n")
     for (var i = 0; i < competicoes.length; i++) {
         competicao = ""
-        if ((competicoes[i].id == 2002) || (competicoes[i].id == 2014) || (competicoes[i].id == 2015) || (competicoes[i].id == 2017) || (competicoes[i].id == 2019) || (competicoes[i].id == 2021)) {
+        if ((competicoes[i].id == 2002) || (competicoes[i].id == 2003) || (competicoes[i].id == 2014) || (competicoes[i].id == 2015) ||(competicoes[i].id == 2016) || (competicoes[i].id == 2017) || (competicoes[i].id == 2019) || (competicoes[i].id == 2021)) {
             competicao += ":c_" + competicoes[i].id + " a owl:NamedIndividual ,\n"
             competicao += "\t\t :Competicao ;\n"
             competicao += "\t:area \"" + competicoes[i].area.name + "\";\n"
@@ -47,6 +47,7 @@ request.get({
                         area: teams[t].area.name,
                         coresClube: teams[t].clubColors,
                         email: teams[t].email,
+                        crestUrl: teams[t].crestUrl,
                         estadio: teams[t].venue,
                         morada: teams[t].address,
                         nome: teams[t].name,
@@ -82,12 +83,15 @@ request.get({
                         arbitros: matches[m].referees,
                         vencedor: matches[m].score.winner
                     }
+                    if(match.numeroDeJogo == null){
+                        match.numeroDeJogo = -1
+                    }
                     for (var a = 0; a < matches[m].referees.length; a++) {
                         var referee = {
                             id: matches[m].referees[a].id,
                             nome: matches[m].referees[a].name
                         }
-                        if (arbitros.indexOf(referee) == -1) {
+                        if (arbitros.indexOf(referee) == -1){
                             arbitros.push(referee)
                         }
                     }
@@ -134,6 +138,8 @@ request.get({
         }
 
     }
+    var uniq = {}
+    arbitros = arbitros.filter(obj => !uniq[obj.id] && (uniq[obj.id] = true));
     for (var e = 0; e < equipas.length; e++) {
         await request.get({
             url: 'http://api.football-data.org/v2/teams/' + equipas[e].id,
@@ -173,10 +179,43 @@ request.get({
                             dataNascimento: players[p].dateOfBirth,
                             nacionalidade: players[p].nationality,
                             paisNascimento: players[p].countryOfBirth,
-                            nome: players[p].name
+                            nome: players[p].name,
+                            papel: players[p].role
                         }
                         if (treinadores.indexOf(coach) == -1) {
                             treinadores.push(coach)
+                        }
+                    }
+                    else{
+                        if(players[p].role == 'ASSISTANT_COACH'){
+                            var coach = {
+                                id: players[p].id,
+                                treina: equipas[e].id,
+                                dataNascimento: players[p].dateOfBirth,
+                                nacionalidade: players[p].nationality,
+                                paisNascimento: players[p].countryOfBirth,
+                                nome: players[p].name,
+                                papel: players[p].role
+                            }
+                            if (treinadores.indexOf(coach) == -1) {
+                                treinadores.push(coach)
+                            }
+                        }
+                        else{
+                            if(players[p].role == 'INTERIM_COACH'){
+                                var coach = {
+                                    id: players[p].id,
+                                    treina: equipas[e].id,
+                                    dataNascimento: players[p].dateOfBirth,
+                                    nacionalidade: players[p].nationality,
+                                    paisNascimento: players[p].countryOfBirth,
+                                    nome: players[p].name,
+                                    papel: players[p].role
+                                }
+                                if (treinadores.indexOf(coach) == -1) {
+                                    treinadores.push(coach)
+                                }
+                            }
                         }
                     }
                 }
@@ -189,13 +228,20 @@ request.get({
         var equipa = ""
         equipa += ":e_" + equipas[e].id + " a owl:NamedIndividual,\n"
         equipa += "\t\t :Equipa;\n"
-        equipa += "\t:anoFundacao " + equipas[e].anoFundacao + ";\n"
+        if(equipas[e].anoFundacao == null){
+            equipa += "\t:anoFundacao " + 1889 + ";\n"    
+        }
+        else{
+            equipa += "\t:anoFundacao " + equipas[e].anoFundacao + ";\n"
+        }
         equipa += "\t:area \"" + equipas[e].area + "\";\n"
         equipa += "\t:coresClube \"" + equipas[e].coresClube + "\";\n"
         equipa += "\t:email \"" + equipas[e].email + "\";\n"
         equipa += "\t:nome \"" + equipas[e].nome + "\";\n"
         equipa += "\t:website \"" + equipas[e].website + "\";\n"
         equipa += "\t:nomeCurto \"" + equipas[e].nomeCurto + "\";\n"
+        equipa += "\t:crestUrl \"" + equipas[e].crestUrl + "\";\n"
+        equipa += "\t:estadio \"" + equipas[e].estadio + "\";\n"
         equipa += "\t:tla \"" + equipas[e].tla + "\".\n"
         console.log(equipa)
     }
@@ -274,8 +320,20 @@ request.get({
     for (var t = 0; t < treinadores.length; t++) {
         var treinador = ""
         treinador += ":t_" + treinadores[t].id + " a owl:NamedIndividual,\n"
-        treinador += "\t\t :Treinador;\n"
+        if(treinadores[t].papel == 'COACH'){
+            treinador += "\t\t :Principal;\n"
+        }else{
+            if(treinadores[t].papel == 'INTERIM_COACH'){
+                treinador += "\t\t :Interino;\n"
+            }
+            else{
+                if(treinadores[t].papel == 'ASSISTANT_COACH'){
+                    treinador += "\t\t :Assistente;\n"
+                }       
+            }
+        }
         treinador += "\t:treina :e_" + treinadores[t].treina + ";\n"
+        treinador += "\t:papel \"" + treinadores[t].papel + "\";\n"
         treinador += "\t:dataNascimento \"" + treinadores[t].dataNascimento + "\";\n"
         treinador += "\t:nacionalidade \"" + treinadores[t].nacionalidade + "\";\n"
         treinador += "\t:paisNascimento \"" + treinadores[t].paisNascimento + "\";\n"

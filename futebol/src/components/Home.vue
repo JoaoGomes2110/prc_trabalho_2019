@@ -2,44 +2,56 @@
   <v-container fluid fill-height>
     <v-layout row wrap>
       <v-flex xs-6>
-        <v-card height="125">
-          <v-card-title primary-title>Número de Competições</v-card-title>
+        <v-card class="teal lighten-5" height="125">
+          <v-card-title primary-title>
+            <b>Número de Competições</b>
+          </v-card-title>
           <v-card-text>{{ nCompeticoes.nCompeticoes }}</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs-6>
-        <v-card height="125">
-          <v-card-title primary-title>Número de Equipas</v-card-title>
+        <v-card class="teal lighten-5"  height="125">
+          <v-card-title primary-title>
+            <b>Número de Equipas</b>
+          </v-card-title>
           <v-card-text>{{ nEquipas.nEquipas }}</v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
       <v-flex xs-6>
-        <v-card height="125">
-          <v-card-title primary-title>Número de Jogos</v-card-title>
+        <v-card class="teal lighten-5"  height="125">
+          <v-card-title primary-title>
+           <b> Número de Jogos</b>
+          </v-card-title>
           <v-card-text>{{ nJogos.nJogos }}</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs-6>
-        <v-card height="125">
-          <v-card-title primary-title>Número de Jogadores</v-card-title>
+        <v-card class="teal lighten-5"  height="125">
+          <v-card-title primary-title>
+            <b>Número de Jogadores</b>
+          </v-card-title>
           <v-card-text>{{ nJogadores.nJogadores }}</v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
     <v-layout row wrap>
       <v-flex xs-6>
-        <v-card height="125">
-          <v-card-title primary-title>Número de Treinadores</v-card-title>
-          <v-card-text>{{ nTreinadores.nTreinadores }}</v-card-text>
+        <v-card class="teal lighten-5"  height="125">
+          <v-card-title primary-title>
+            <b>Número de Treinadores</b>
+          </v-card-title>
+        <v-card-text class="">{{ nTreinadores.nTreinadores }}</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs-6>
-        <v-card height="125">
-          <v-card-title primary-title>Número de Arbitros</v-card-title>
-          <v-card-text>{{ nArbitros.nArbitros }}</v-card-text>
-        </v-card>
+        <v-card class="teal lighten-5"  height="125">
+          <v-card-title primary-title>
+            <b>Número de Arbitros </b>
+          </v-card-title>
+        <v-card-text>{{ nArbitros.nArbitros }}</v-card-text>
+      </v-card>
       </v-flex>
     </v-layout>
   </v-container>

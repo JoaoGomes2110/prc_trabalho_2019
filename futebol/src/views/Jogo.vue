@@ -1,14 +1,14 @@
 <template>
   <v-container fluid fill-height> 
-    <Home/>
+    <MetaJogo :idJogo="$route.params.id"/>
   </v-container>
 </template>
 
 <script>
-import Home from "@/components/Home";
+import MetaJogo from "@/components/MetaJogo";
 export default {
   components: {
-    Home
+    MetaJogo
   }
 };
 </script>

@@ -1,16 +1,23 @@
 <template>
   <nav>
-    <v-toolbar class="grey lighten-4" flat fixed app>
+    <v-toolbar class="teal lighten-5" flat fixed app>
       <v-toolbar-side-icon @click="showMenu = !showMenu"></v-toolbar-side-icon>
+      <v-spacer/>
+      <v-btn right @click="goBack" light color="dark">
+        <v-icon left>arrow_back</v-icon>Voltar
+      </v-btn>
     </v-toolbar>
-    <v-navigation-drawer v-model="showMenu" class="grey lighten-4" flat app>
-      <br/>
+    <v-navigation-drawer v-model="showMenu" class="teal lighten-5" flat app>
+      <br>
       <v-list-tile-title class="title text-lg-center">Futebol</v-list-tile-title>
+      <br>
       <v-divider></v-divider>
       <v-list>
         <v-list-tile v-for="item in items" :key="item.nome">
           <v-list-tile-content>
-            <v-btn left @click="get(item.nome)" flat small>{{ item.nome }}</v-btn>
+            <v-btn left @click="get(item.nome)" flat small>
+              <b>{{ item.nome }}</b>
+            </v-btn>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -34,11 +41,13 @@ export default {
   }),
   methods: {
     get: function (nome) {
-      this.$router.push('/'+ nome.toLowerCase() + '/')
+      this.$router.push('/' + nome.toLowerCase() + '/')
+    },
+    goBack: function () {
+      this.$router.go(-1)
     }
   }
 }
 </script>
-
 <style>
 </style>

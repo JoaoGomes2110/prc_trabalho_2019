@@ -1,17 +1,14 @@
 <template>
-  <v-container fluid fill-height> 
-    <layoutBar/>
-    <Home/>
+  <v-container> 
+    <ListaEquipas />
   </v-container>
 </template>
 
 <script>
-import layoutBar from "@/components/layoutBar";
-import Home from "@/components/Home";
+import ListaEquipas from "@/components/ListaEquipas";
 export default {
   components: {
-    Home,
-    layoutBar
+    ListaEquipas
   }
 };
 </script>

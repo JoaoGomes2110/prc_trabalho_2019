@@ -24,12 +24,47 @@ Futebol.listarCompeticoes = async () =>{
     select ?c ?area ?nome where {  
         ?c a :Competicao .
         ?c :nome ?nome.
-        ?c :area ?area.  
+        ?c :area ?area.
     } 
     order by(?c)`;
+    
+    var res1 = await execQuery(query)
+    for(var i in res1){
+        var id = res1[i].c.split('#')[1]
+        const query2 = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+        select (count(?e) as ?nEquipas) where {  
+            :${id} :eCompostaPor ?e.
+        } 
+        `;
+        var res2 = await execQuery(query2)
+        res1[i].nEquipas = res2[0].nEquipas
+    }
+    return res1;
+}
 
-    var res = await execQuery(query);
-    return res;
+Futebol.infoCompeticao = async (id) =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?nome ?area where { 
+        :${id} :nome ?nome.
+        :${id} :area ?area.
+    }`
+
+    var res = await execQuery(query)
+    return res
+}
+
+Futebol.listarEquipas = async () =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?e ?nomeEquipa ?competicao where { 
+        ?e a :Equipa.
+        ?e :nome ?nomeEquipa.
+        ?e :participa ?c.
+        ?c :nome ?competicao.
+    }
+    order by ?e`
+
+    var res = await execQuery(query)
+    return res
 }
 
 Futebol.listarEquipasPorCompeticao = async (id) =>{
@@ -65,6 +100,22 @@ Futebol.listarClassificacoesPorCompeticao = async (id) =>{
     return res
 
 } 
+
+Futebol.listarJogos = async () =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?j ?nomeC ?nomeF where { 
+        ?j a :Jogo.
+        ?j :jogaEmCasa ?eC.
+        ?eC :nome ?nomeC.
+        ?j :jogaFora ?eF.
+        ?eF :nome ?nomeF.
+    }
+    order by ?j
+    limit 100`
+
+    var res = await execQuery(query)
+    return res
+}
 
 Futebol.listarJogosPorCompeticao = async (id) =>{
     const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
@@ -114,7 +165,7 @@ Futebol.jogoArbitros = async (id) =>{
 
 Futebol.infoEquipa = async (id) =>{
     const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
-    select ?nomeEquipa ?anoFundacao ?area ?coresClube ?email ?website ?nomeCurto ?tla ?idTreinador ?treinador where { 
+    select ?nomeEquipa ?anoFundacao ?area ?coresClube ?email ?website ?nomeCurto ?tla ?estadio ?crestUrl ?nome where { 
         :${id} :nome ?nomeEquipa.
         :${id} :anoFundacao ?anoFundacao.
         :${id} :area ?area.
@@ -123,8 +174,10 @@ Futebol.infoEquipa = async (id) =>{
         :${id} :website ?website.
         :${id} :nomeCurto ?nomeCurto.
         :${id} :tla ?tla.
-        :${id} :temTreinador ?idTreinador.
-        ?idTreinador :nome ?treinador.
+        :${id} :estadio ?estadio.
+        :${id} :crestUrl ?crestUrl.
+        :${id} :participa ?c.
+    	?c :nome ?nome.
     }`
 
     var res = await execQuery(query)
@@ -133,9 +186,22 @@ Futebol.infoEquipa = async (id) =>{
 
 Futebol.equipaJogadores = async (id) =>{
     const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
-    select ?j ?jogador where { 
+    select ?j ?jogador ?posicao where { 
         :${id} :temJogador ?j.
         ?j :nome ?jogador.
+        ?j :posicao ?posicao.
+    }`
+
+    var res = await execQuery(query)
+    return res
+}
+
+Futebol.equipaTreinadores = async (id) =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?t ?treinador ?papel where { 
+        :${id} :temTreinador ?t.
+        ?t :nome ?treinador.
+        ?t :papel ?papel.
     }`
 
     var res = await execQuery(query)
@@ -158,6 +224,22 @@ Futebol.equipaJogos = async (id) =>{
     return res
 }
 
+Futebol.listarJogadores = async () =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?j ?nome ?equipa ?posicao where { 
+        ?j a :Jogador.
+        ?j :nome ?nome.
+        ?j :posicao ?posicao.
+        ?j :jogaNaEquipa ?e.
+        ?e :nome ?equipa.
+    }
+    order by ?j
+    limit 100`
+    
+    var res = await execQuery(query)
+    return res
+}
+
 Futebol.infoJogador = async (id) =>{
     const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
     select ?e ?nomeEquipa ?nome ?dNasc ?nacionalidade ?paisNascimento ?posicao where { 
@@ -174,12 +256,58 @@ Futebol.infoJogador = async (id) =>{
     return res
 }
 
+Futebol.listarTreinadoresPrincipais = async () =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?t ?nome ?nomeEquipa where { 
+        ?t a :Principal.
+        ?t :nome ?nome.
+        ?t :treina ?e.
+        ?e :nome ?nomeEquipa 
+    }
+    order by ?t
+    limit 100`
+    
+    var res = await execQuery(query)
+    return res
+}
+
+Futebol.listarTreinadoresAssistentes = async () =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?t ?nome ?nomeEquipa where { 
+        ?t a :Assistente.
+        ?t :nome ?nome.
+        ?t :treina ?e.
+        ?e :nome ?nomeEquipa 
+    }
+    order by ?t
+    limit 100`
+    
+    var res = await execQuery(query)
+    return res
+}
+
+Futebol.listarTreinadoresInterinos = async () =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?t ?nome ?nomeEquipa  where { 
+        ?t a :Interino.
+        ?t :nome ?nome.
+        ?t :treina ?e.
+        ?e :nome ?nomeEquipa 
+    }
+    order by ?t
+    limit 100`
+    
+    var res = await execQuery(query)
+    return res
+}
+
 Futebol.infoTreinador = async (id) =>{
     const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
-    select ?e ?nomeEquipa ?nome ?dNasc ?nacionalidade ?paisNascimento where { 
+    select ?e ?nomeEquipa ?nome ?dNasc ?nacionalidade ?paisNascimento ?papel where { 
         :${id} :treina ?e.
         ?e :nome ?nomeEquipa.
         :${id} :nome ?nome.
+        :${id} :papel ?papel.
         :${id} :dataNascimento ?dNasc.
         :${id} :nacionalidade ?nacionalidade.
         :${id} :paisNascimento ?paisNascimento.
@@ -194,7 +322,9 @@ Futebol.listarArbitros = async () =>{
     select ?a ?nome  where { 
         ?a a :Arbitro.
         ?a :nome ?nome.
-    }`
+    }
+    order by ?nome
+    limit 100`
     
     var res = await execQuery(query)
     return res
@@ -206,6 +336,23 @@ Futebol.infoArbitro = async (id) =>{
         :${id} a :Arbitro.
         :${id} :nome ?nome.
     }`
+    
+    var res = await execQuery(query)
+    return res
+}
+
+Futebol.listarArbitrosJogos = async (id) =>{
+    const query = `PREFIX : <http://prc.di.uminho.pt/2019/futebol#>
+    select ?j ?numeroDeJogo ?nomeC ?nomeF  where { 
+        :${id} :arbitra ?j.
+        ?j :numeroDeJogo ?numeroDeJogo.
+        ?j :jogaEmCasa ?ec.
+        ?ec :nome ?nomeC.
+        ?j :jogaFora ?ef.
+        ?ef :nome ?nomeF.
+    }
+    order by ?numeroDeJogo
+    limit 100`
     
     var res = await execQuery(query)
     return res
